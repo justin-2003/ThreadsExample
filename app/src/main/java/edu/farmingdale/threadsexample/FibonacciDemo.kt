@@ -3,7 +3,6 @@ package edu.farmingdale.threadsexample
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -19,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.Locale
@@ -27,6 +27,7 @@ import java.util.Locale
 fun FibonacciDemoNoBgThrd() {
     var answer by remember { mutableStateOf("") }
     var textInput by remember { mutableStateOf("40") }
+    var coroutineScope = rememberCoroutineScope()
 
     Column {
         Spacer(Modifier.padding(10.dp))
@@ -41,9 +42,12 @@ fun FibonacciDemoNoBgThrd() {
                 )
             )
             Button(onClick = {
-                val num = textInput.toLongOrNull() ?: 0
-                val fibNumber = fibonacci(num)
-                answer = NumberFormat.getNumberInstance(Locale.US).format(fibNumber)
+               coroutineScope.launch(Dispatchers.Default) {
+                   val num = textInput.toLongOrNull() ?: 0
+                   val fibNumber = fibonacci(num)
+                   answer = NumberFormat.getNumberInstance(Locale.US).format(fibNumber)
+               }
+
             }) {
                 Text("Fibonacci")
             }
