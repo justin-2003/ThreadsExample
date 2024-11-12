@@ -1,5 +1,6 @@
 package edu.farmingdale.threadsexample
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,26 +15,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import edu.farmingdale.threadsexample.ui.theme.ThreadsExampleTheme
 
 class MainActivity : ComponentActivity() {
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             ThreadsExampleTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting("Android", Modifier.padding(innerPadding))
+                Scaffold(modifier = Modifier.fillMaxSize()) {
+                    FibonacciDemoNoBgThrd()
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
 // ToDo 1: Call `FibonacciDemoNoBgThrd` that calculates the Fibonacci number of a given number.
 // ToDo 2: Create a composable function called `FibonacciDemoWithCoroutine` that calculates the
